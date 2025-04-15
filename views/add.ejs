@@ -1,0 +1,36 @@
+<%- include('./partials/header', { currentPage: 'add', title: 'Add Recipe'}) %>
+<div class="form-container">
+    <h1>Add a New Recipe</h1>
+
+    <form action="/recipes" method="POST">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" required>
+
+        <label for="main_protein">Main Protein</label>
+        <select name="main_protein" id="main_protein" required>
+        <option value="">Select one</option>
+        <option value="Chicken">Chicken</option>
+        <option value="Beef">Beef</option>
+        <option value="Tofu">Tofu</option>
+        <option value="Grains">Grains</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea name="description" id="description" rows="3"></textarea>
+
+        <label for="instructions">Instructions</label>
+        <textarea name="instructions" id="instructions" rows="6" required></textarea>
+
+        <h2>Ingredients</h2>
+        <% ingredients.forEach((ingredient, i) => { %>
+        <div class="ingredients-group">
+            <input type="checkbox" name="ingredient_ids" value="<%= ingredient.id %>" id="ing-<%= i %>">
+            <label for="ing-<%= i %>"><%= ingredient.name %></label>
+            <input type="text" name="quantities" placeholder="Quantity (e.g. 1 cup)">
+        </div>
+        <% }) %>
+
+        <button type="submit">Add Recipe</button>
+    </form>
+</div>
+<%- include('./partials/footer') %>

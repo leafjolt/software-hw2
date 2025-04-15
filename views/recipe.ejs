@@ -1,0 +1,43 @@
+<%- include('./partials/header', { currentPage: 'recipes', title: recipe.title }) %>
+<div class="recipe-container">
+    <h1><%= recipe.title %></h1>
+    <p><strong>Main Protein:</strong> <%= recipe.main_protein %></p>
+    <p><%= recipe.description %></p>
+
+    <div class="ingredients">
+      <h2>Ingredients:</h2>
+      <% for (ingredient of ingredients) { %>
+        <span class="ingredient" data-info="<%= ingredient.info %>">
+          <%= ingredient.name %> (<%= ingredient.quantity %>)
+        </span>
+      <% } %>
+    </div>
+
+    <div class="instructions">
+      <h2>Instructions:</h2>
+      <p><%= recipe.instructions %></p>
+    </div>
+  </div>
+<div class="tooltip" id="tooltip"></div>
+<script>
+    const tooltip = document.getElementById('tooltip');
+    const ingredients = document.querySelectorAll('.ingredient');
+
+    for (ingredient of ingredients) {
+        ingredient.addEventListener('mouseenter', e => {
+        const info = ingredient.dataset.info;
+        tooltip.textContent = info;
+        tooltip.style.display = 'block';
+        });
+
+        ingredient.addEventListener('mousemove', e => {
+        tooltip.style.left = e.pageX + 10 + 'px';
+        tooltip.style.top = e.pageY + 10 + 'px';
+        });
+
+        ingredient.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+        });
+    }
+</script>
+<%- include('./partials/footer') %>

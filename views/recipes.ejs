@@ -1,3 +1,27 @@
-<%- include('./partials/header', { currentPage: 'recipes'}) %>
-
+<%- include('./partials/header', { currentPage: 'recipes', title: 'Recipes' }) %>
+<% for (protein in proteinGroups) { 
+    const recipes = proteinGroups[protein];
+    if (recipes.length > 0) { %>
+    <div class="table-container">
+      <h2 class="protein"><%= protein %> Recipes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (recipe of recipes) { %>
+              <tr>
+                <td><%= recipe.title %></td>
+                <td><%= recipe.description %></td>
+                <td><a href="/recipes/<%= recipe.id %>">View Recipe</a></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+<% }} %>
 <%- include('./partials/footer') %>
