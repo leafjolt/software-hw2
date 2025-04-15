@@ -2,69 +2,79 @@
 CREATE DATABASE IF NOT EXISTS recipe_site;
 USE recipe_site;
 
--- Ingredients table
+-- TABLES
 CREATE TABLE ingredients (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    info TEXT NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  info TEXT
 );
 
--- Recipes table (no image_url field)
 CREATE TABLE recipes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    instructions TEXT,
-    main_protein ENUM('Chicken', 'Beef', 'Tofu', 'Grains') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  instructions TEXT,
+  main_protein ENUM('Chicken', 'Beef', 'Tofu', 'Grains') NOT NULL
 );
 
--- Join table for recipe-ingredient many-to-many relationship
 CREATE TABLE recipe_ingredients (
-    recipe_id INT,
-    ingredient_id INT,
-    quantity VARCHAR(50),
-    PRIMARY KEY (recipe_id, ingredient_id),
-    FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
-    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
+  recipe_id INT,
+  ingredient_id INT,
+  PRIMARY KEY (recipe_id, ingredient_id),
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
+  FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
 );
 
--- Sample data for ingredients
 INSERT INTO ingredients (name, info) VALUES
-('Garlic', 'Used worldwide, garlic can reduce blood pressure.'),
-('Cumin', 'A spice commonly used in Indian and Middle Eastern cuisine.'),
-('Olive Oil', 'Healthy fat from olives, mainly used in Mediterranean diets.'),
-('Carrot', 'Rich in beta-carotene, great for vision and skin.'),
-('Broccoli', 'High in fiber and vitamin C, supports immunity.'),
-('Bell Pepper', 'Colorful and sweet, loaded with antioxidants.'),
-('Spinach', 'Leafy green high in iron and calcium.'),
-('Onion', 'Adds depth of flavor, can be eaten raw or cooked.');
+('Chicken Breast', 'Lean protein, cooks quickly.'),
+('Ground Beef', 'Flavorful and filling.'),
+('Tofu', 'Plant-based protein that absorbs flavor.'),
+('Rice', 'Basic grain, good for bowls and sides.'),
+('Bell Pepper', 'Sweet and crunchy.'),
+('Spinach', 'Nutrient-rich leafy green.'),
+('Garlic', 'Bold flavor, used everywhere.'),
+('Onion', 'Staple aromatic for depth.'),
+('Soy Sauce', 'Salty and savory seasoning.'),
+('Olive Oil', 'Common cooking oil, heart-healthy.');
 
--- Sample data for recipes
 INSERT INTO recipes (title, description, instructions, main_protein) VALUES
-('Garlic Chicken', 'A flavorful garlic-infused chicken dish.', '1. Marinate chicken in garlic.\n2. Bake at 375°F for 25 minutes.', 'Chicken'),
-('Tofu Stir Fry', 'A vegetarian stir fry with tofu and vegetables.', '1. Fry tofu until golden.\n2. Add veggies and sauce.', 'Tofu'),
-('Veggie Power Bowl', 'A grain-based bowl with roasted vegetables.', '1. Roast carrots and broccoli.\n2. Serve over quinoa with olive oil.', 'Grains'),
-('Spinach & Bell Pepper Tofu Scramble', 'A savory plant-based scramble.', '1. Sauté spinach and peppers.\n2. Add crumbled tofu and spices.', 'Tofu'),
-('Carrot & Onion Grains Medley', 'A simple and healthy grain salad.', '1. Cook grains.\n2. Mix with grated carrot, sautéed onion, and olive oil.', 'Grains');
+-- Chicken
+('Simple Chicken Stir-Fry', 'A quick stir-fry with chicken and bell peppers.', 'Sauté chicken in olive oil. Add peppers and garlic. Stir-fry until cooked.', 'Chicken'),
+('Garlic Chicken Bowl', 'Grilled chicken with garlic and rice.', 'Grill chicken and serve over rice with garlic-infused oil.', 'Chicken'),
 
--- Sample data for recipe-ingredients relationships
-INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES
--- Garlic Chicken
-(1, 1, '3 cloves'),
-(1, 3, '2 tbsp'),
--- Tofu Stir Fry
-(2, 2, '1 tsp'),
-(2, 3, '1 tbsp'),
--- Veggie Power Bowl
-(3, 4, '1 cup sliced'),
-(3, 5, '1 cup florets'),
-(3, 3, '2 tbsp'),
--- Spinach & Bell Pepper Tofu Scramble
-(4, 7, '1 cup chopped'),
-(4, 6, '1/2 cup sliced'),
-(4, 2, '1 tsp'),
--- Carrot & Onion Grains Medley
-(5, 4, '1/2 cup shredded'),
-(5, 8, '1/2 cup chopped'),
-(5, 3, '1 tbsp');
+-- Beef
+('Beef & Peppers', 'Easy beef and bell pepper sauté.', 'Cook beef with peppers and soy sauce.', 'Beef'),
+('Beef Rice Bowl', 'Comforting rice bowl with savory beef.', 'Brown beef, mix with soy sauce and serve over rice.', 'Beef'),
+
+-- Tofu
+('Tofu Stir-Fry', 'Quick tofu dish with spinach and soy.', 'Fry tofu, add spinach and soy sauce.', 'Tofu'),
+('Garlic Tofu', 'Tofu pan-fried in garlic and oil.', 'Crisp tofu in garlic and olive oil.', 'Tofu'),
+
+-- Grains
+('Spinach Rice', 'Simple rice with sautéed spinach.', 'Cook rice. Sauté spinach with garlic and mix.', 'Grains'),
+('Veggie Fried Rice', 'Fried rice with mixed veggies.', 'Fry rice with peppers, onion, soy sauce.', 'Grains');
+
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES
+-- Simple Chicken Stir-Fry
+(1, 1), (1, 5), (1, 7), (1, 10),
+
+-- Garlic Chicken Bowl
+(2, 1), (2, 4), (2, 7),
+
+-- Beef & Peppers
+(3, 2), (3, 5), (3, 9),
+
+-- Beef Rice Bowl
+(4, 2), (4, 4), (4, 9),
+
+-- Tofu Stir-Fry
+(5, 3), (5, 6), (5, 9),
+
+-- Garlic Tofu
+(6, 3), (6, 7), (6, 10),
+
+-- Spinach Rice
+(7, 4), (7, 6), (7, 7),
+
+-- Veggie Fried Rice
+(8, 4), (8, 5), (8, 8), (8, 9);

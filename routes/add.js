@@ -2,17 +2,25 @@ var express = require('express');
 var router = express.Router();
 const db = require('../database/connection');  
 
-router.get('/', function(req, res, next) {
-  res.render('add', { 
-    title: 'Add Recipe',
-    currentPage: 'add'
-  });
+router.get('/', async (req, res, next) => {
+  try {
+    const [ingredients] = await db.query('SELECT * FROM ingredients ORDER BY name');
+    res.render('add', { 
+      title: 'Add Recipe',
+      currentPage: 'add',
+      ingredients 
+    });
+  } catch (err) {
+    console.error('Error loading ingredients:', err);
+    res.status(500).send('Server error');
+  }
 });
 
-router.post('/recipes', async (req, res) => {
-  const { title, description, instructions, main_protein, ingredient_ids, quantities } = req.body;
+router.post('/', async (req, res) => {
+  console.log(req.body);
+  const { title, description, instructions, main_protein, ingredients } = req.body;
 
-  if (!title || !main_protein || !ingredient_ids || !quantities) {
+  if (!title || !main_protein || !ingredients) {
     return res.status(400).send('Missing required fields');
   }
 
@@ -24,12 +32,11 @@ router.post('/recipes', async (req, res) => {
 
     const recipeId = recipeResult.insertId;
 
-    for (let i = 0; i < ingredient_ids.length; i++) {
-      const ingredientId = ingredient_ids[i];
-      const quantity = quantities[i];
+    for (let i = 0; i < ingredients.length; i++) {
+      const ingredientId = ingredients[i];
       await db.query(
-        'INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES (?, ?, ?)',
-        [recipeId, ingredientId, quantity]
+        'INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (?, ?)',
+        [recipeId, ingredientId]
       );
     }
 

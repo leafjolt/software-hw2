@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
       const recipe = recipeRows[0];
   
       const [ingredientRows] = await db.query(
-        `SELECT i.name, i.info, ri.quantity
+        `SELECT i.name, i.info
          FROM recipe_ingredients ri
          JOIN ingredients i ON ri.ingredient_id = i.id
          WHERE ri.recipe_id = ?`,

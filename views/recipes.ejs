@@ -1,27 +1,53 @@
 <%- include('./partials/header', { currentPage: 'recipes', title: 'Recipes' }) %>
-<% for (protein in proteinGroups) { 
+
+<div class="container">
+  <h1>All Recipes</h1>
+
+  <div class="form-group">
+    <label for="search">Search Recipes</label>
+    <input type="text" id="search" placeholder="Start typing to filter recipes...">
+  </div>
+
+  <% for (protein in proteinGroups) { 
     const recipes = proteinGroups[protein];
     if (recipes.length > 0) { %>
     <div class="table-container">
       <h2 class="protein"><%= protein %> Recipes</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>View</th>
+      <table class="recipe-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (recipe of recipes) { %>
+            <tr class="recipe-row">
+              <td class="recipe-title"><%= recipe.title %></td>
+              <td class="recipe-desc"><%= recipe.description %></td>
+              <td><a href="/recipes/<%= recipe.id %>">View Recipe</a></td>
             </tr>
-          </thead>
-          <tbody>
-            <% for (recipe of recipes) { %>
-              <tr>
-                <td><%= recipe.title %></td>
-                <td><%= recipe.description %></td>
-                <td><a href="/recipes/<%= recipe.id %>">View Recipe</a></td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
+          <% } %>
+        </tbody>
+      </table>
     </div>
-<% }} %>
+  <% }} %>
+</div>
+
+<script>
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll('.recipe-row');
+
+    rows.forEach(row => {
+      const title = row.querySelector('.recipe-title').textContent.toLowerCase();
+      const desc = row.querySelector('.recipe-desc').textContent.toLowerCase();
+      const match = title.includes(searchTerm) || desc.includes(searchTerm);
+      row.style.display = match ? '' : 'none';
+    });
+  });
+</script>
+
 <%- include('./partials/footer') %>

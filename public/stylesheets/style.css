@@ -125,3 +125,93 @@ td a:hover {
   display: none;
   z-index: 1000;
 }
+
+form {
+  background-color: #1b263b;
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid #415a77;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #e0e1dd;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 16px;
+  border: 1px solid #415a77;
+  border-radius: 4px;
+  background-color: #0d1b2a;
+  color: #e0e1dd;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.checkbox-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.checkbox-item {
+  background-color: #1b263b;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #415a77;
+  color: #e0e1dd;
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+button[type="submit"] {
+  background-color: #415a77;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #778da9;
+}
+
+input#search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  border: 1px solid #415a77;
+  border-radius: 4px;
+  background-color: #0d1b2a;
+  color: #e0e1dd;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  background-color: #1b263b;
+  padding: 1em;
+  border-radius: 5px;
+  border: 1px solid #415a77;
+  color: #e0e1dd;
+}

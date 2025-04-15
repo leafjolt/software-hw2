@@ -8,14 +8,14 @@
       <h2>Ingredients:</h2>
       <% for (ingredient of ingredients) { %>
         <span class="ingredient" data-info="<%= ingredient.info %>">
-          <%= ingredient.name %> (<%= ingredient.quantity %>)
+          <%= ingredient.name %>
         </span>
       <% } %>
     </div>
 
     <div class="instructions">
       <h2>Instructions:</h2>
-      <p><%= recipe.instructions %></p>
+      <pre><%= recipe.instructions %></pre>
     </div>
   </div>
 <div class="tooltip" id="tooltip"></div>
@@ -23,21 +23,21 @@
     const tooltip = document.getElementById('tooltip');
     const ingredients = document.querySelectorAll('.ingredient');
 
-    for (ingredient of ingredients) {
+    ingredients.forEach((ingredient) => {
         ingredient.addEventListener('mouseenter', e => {
-        const info = ingredient.dataset.info;
-        tooltip.textContent = info;
-        tooltip.style.display = 'block';
+          const info = ingredient.dataset.info;
+          tooltip.innerText = info;
+          tooltip.style.display = 'block';
         });
 
         ingredient.addEventListener('mousemove', e => {
-        tooltip.style.left = e.pageX + 10 + 'px';
-        tooltip.style.top = e.pageY + 10 + 'px';
+          tooltip.style.left = e.pageX + 10 + 'px';
+          tooltip.style.top = e.pageY + 10 + 'px';
         });
 
         ingredient.addEventListener('mouseleave', () => {
-        tooltip.style.display = 'none';
+          tooltip.style.display = 'none';
         });
-    }
+    });
 </script>
 <%- include('./partials/footer') %>
