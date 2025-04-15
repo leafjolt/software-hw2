@@ -10,4 +10,4 @@ DB_USER=
 DB_PASS=
 DB_NAME=
 ```
-After filling these out, the site should run on [`localhost:3000`](localhost:3000) with a simple `npm start`!
+After filling these out, the site should run on [localhost:3000](localhost:3000) with a simple `npm start`!
